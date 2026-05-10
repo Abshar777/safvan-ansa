@@ -1670,12 +1670,23 @@
       makePetals(document.getElementById("ipt"), 20, "ipetal");
       makePetals(document.getElementById("hpt"), 14, "hpetal");
 
+      const audio = document.getElementById("bg-audio");
+      const mwEl = document.getElementById("mw");
+      let playing = false;
       /* ── INTRO ── */
       document.body.style.overflow = "hidden";
       function skipIntro() {
         document.getElementById("intro").classList.add("hidden");
         document.body.style.overflow = "auto";
-        toggleMusic()
+        audio
+          .play()
+          .then(() => {
+            mwEl
+              .querySelectorAll(".mw")
+              .forEach((m) => m.classList.remove("paused"));
+            playing = true;
+          })
+          .catch(() => {});
       }
       setTimeout(skipIntro, 5200);
 
@@ -1713,9 +1724,6 @@
       /* ── REVEAL ── */
 
       /* ── MUSIC ── */
-      const audio = document.getElementById("bg-audio");
-      const mwEl = document.getElementById("mw");
-      let playing = false;
 
       const obs = new IntersectionObserver(
         (entries) => {
@@ -1731,14 +1739,12 @@
               obs.unobserve(e.target);
             }
           });
-         
         },
         { threshold: 0.08 },
       );
       document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
 
       function toggleMusic() {
-        console.log("ajaja")
         if (playing) {
           audio.pause();
           mwEl
