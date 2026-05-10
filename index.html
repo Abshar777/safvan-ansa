@@ -1455,7 +1455,7 @@
     <!-- CHILDHOOD PHOTO -->
     <section id="photos" class="sec">
       <div class="sec-wrap">
-        <p class="sec-eye reveal">Our  Beginning</p>
+        <p class="sec-eye reveal">Our Beginning</p>
         <!-- <h2 class="sec-title reveal">Childhood Memories</h2> -->
         <p class="sec-sub reveal">
           A lifetime of moments that led us to this day
@@ -1675,6 +1675,7 @@
       function skipIntro() {
         document.getElementById("intro").classList.add("hidden");
         document.body.style.overflow = "auto";
+        toggleMusic()
       }
       setTimeout(skipIntro, 5200);
 
@@ -1710,6 +1711,12 @@
       setInterval(tick, 1000);
 
       /* ── REVEAL ── */
+
+      /* ── MUSIC ── */
+      const audio = document.getElementById("bg-audio");
+      const mwEl = document.getElementById("mw");
+      let playing = false;
+
       const obs = new IntersectionObserver(
         (entries) => {
           entries.forEach((e) => {
@@ -1724,25 +1731,14 @@
               obs.unobserve(e.target);
             }
           });
+         
         },
         { threshold: 0.08 },
       );
       document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
 
-      /* ── MUSIC ── */
-      const audio = document.getElementById("bg-audio");
-      const mwEl = document.getElementById("mw");
-      let playing = true;
-      audio
-        .play()
-        .then(() => {
-          mwEl
-            .querySelectorAll(".mw")
-            .forEach((m) => m.classList.remove("paused"));
-          playing = true;
-        })
-        .catch(() => {});
       function toggleMusic() {
+        console.log("ajaja")
         if (playing) {
           audio.pause();
           mwEl
